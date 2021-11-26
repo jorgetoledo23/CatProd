@@ -11,6 +11,4 @@ data class Categoria (
     val CategoriaNombre : String,
     val CategoriaDescripcion : String,
     val CategoriaImagen : String
-
-
-        ):Serializable
+    ):Serializable

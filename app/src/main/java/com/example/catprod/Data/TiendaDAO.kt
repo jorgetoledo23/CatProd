@@ -1,26 +1,27 @@
 package com.example.catprod.Data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.lifecycle.LiveData
+import androidx.room.*
 
 @Dao
 interface TiendaDAO {
 
     @Insert
-    suspend fun save(categoria: Categoria)
+    fun save(categoria: Categoria)
+
+    @Delete
+    fun delete(categoria: Categoria)
 
     @Insert
-    suspend fun save(vararg producto: Producto)
+    fun save(vararg producto: Producto)
 
     @Transaction
     @Query("SELECT * FROM tblCategorias")
-    suspend fun getAll(): List<CategoriaAndProductos>
+    fun getAll(): List<CategoriaAndProductos>
 
     @Transaction
     @Query("SELECT * FROM tblCategorias WHERE CategoriaId = :CategoriaId")
-    suspend fun getByCategoriaId(CategoriaId: Int): CategoriaAndProductos
+    fun getByCategoriaId(CategoriaId: Int): CategoriaAndProductos
 
 
 }
