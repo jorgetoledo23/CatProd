@@ -25,10 +25,7 @@ class AddProductoActivity : AppCompatActivity() {
         binding = ActivityAddProductoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         var ListaCategorias = CategoriaProvider.getCategorias()
-
 
         class CategoriaAdapter(context: Context) : BaseAdapter() {
             override fun getCount(): Int {
@@ -47,30 +44,17 @@ class AddProductoActivity : AppCompatActivity() {
                 var Holder:CategoriaHolder = CategoriaHolder()
                 var CategoriaView = convertView
                 CategoriaView = layoutInflater.inflate(R.layout.spinner, parent, false)
-
-
-                Holder.tvNombre = CategoriaView.findViewById(R.id.tvCategoriaNombre)
-
+                Holder.tvCat = CategoriaView.findViewById(R.id.tvCat)
+                Holder.tvNombre = CategoriaView.findViewById(R.id.tvNombre)
                 CategoriaView.tag = Holder
-
                 var categoria = ListaCategorias.get(position)
                 Holder.tvCat.text = categoria.Categoria.CategoriaId.toString()
-                Holder.tvNombre.text = categoria.Categoria.CategoriaNombre
-
+                Holder.tvNombre.text = categoria.Categoria.CategoriaNombre.toString()
                 return CategoriaView
-
             }
-
-
-
         }
 
         var categoriaAdapter:CategoriaAdapter = CategoriaAdapter(this)
-
-
-
-
-
         var spinner = binding.CategoriaSpinner
         spinner.setAdapter(categoriaAdapter);
 
@@ -78,5 +62,6 @@ class AddProductoActivity : AppCompatActivity() {
 }
 
 class CategoriaHolder {
-    lateinit var tvNombre: TextInputLayout
+    lateinit var tvNombre: TextView
+    lateinit var tvCat:TextView
 }
