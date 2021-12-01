@@ -7,10 +7,8 @@ import com.example.catprod.R
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 
-import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
-import android.widget.TextView
 import com.example.catprod.Data.Categoria
 import com.example.catprod.Data.CategoriaAndProductos
 import com.example.catprod.Data.CategoriaProvider
@@ -20,10 +18,14 @@ import com.google.android.material.textfield.TextInputLayout
 class AddProductoActivity : AppCompatActivity() {
     private lateinit var binding : ActivityAddProductoBinding
 
+    private lateinit var CategoriaSeleccionada : String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddProductoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val ctx = this
 
         var ListaCategorias = CategoriaProvider.getCategorias()
 
@@ -57,6 +59,23 @@ class AddProductoActivity : AppCompatActivity() {
         var categoriaAdapter:CategoriaAdapter = CategoriaAdapter(this)
         var spinner = binding.CategoriaSpinner
         spinner.setAdapter(categoriaAdapter);
+
+        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (parent != null) {
+                    CategoriaSeleccionada = ListaCategorias.get(position).Categoria.CategoriaId.toString()
+                    Toast.makeText(ctx, ListaCategorias.get(position).Categoria.CategoriaId.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
+
+        }
+
+
+
 
     }
 }

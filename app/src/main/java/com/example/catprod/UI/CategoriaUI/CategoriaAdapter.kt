@@ -17,8 +17,6 @@ import kotlinx.coroutines.launch
 
 class CategoriaAdapter(var listaCategorias:List<CategoriaAndProductos>):RecyclerView.Adapter<CategoriaAdapter.Holder>() {
 
-
-
     class Holder(var view: View):RecyclerView.ViewHolder(view){
         val binding:CategoriaItemBinding = CategoriaItemBinding.bind(view)
         var database = TiendaDb.getDatabase(view.context)
@@ -26,7 +24,9 @@ class CategoriaAdapter(var listaCategorias:List<CategoriaAndProductos>):Recycler
         fun bind(categoria:CategoriaAndProductos){
             binding.tvCategoriaNombre.text = categoria.Categoria.CategoriaNombre
             binding.tvCategoriaDescripcion.text = categoria.Categoria.CategoriaDescripcion
+
             Glide.with(view.context).load(categoria.Categoria.CategoriaImagen).into(binding.ivCategoriaImagen)
+
             binding.cvCategoria.setOnClickListener{verProductos(categoria.Categoria)}
             binding.btnDelete.setOnClickListener{eliminarCategoria(categoria.Categoria)}
         }
