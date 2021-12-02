@@ -9,6 +9,9 @@ import com.example.catprod.Data.TiendaDb
 import com.example.catprod.UI.CategoriaUI.AddCategoriaActivity
 import com.example.catprod.UI.CategoriaUI.CategoriaAdapter
 import com.example.catprod.databinding.ActivityProductosListBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProductosListActivity : AppCompatActivity() {
 
@@ -23,6 +26,12 @@ class ProductosListActivity : AppCompatActivity() {
         database = TiendaDb.getDatabase(this)
 
         binding.btnAddProducto.setOnClickListener{ openAddProducto() }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            initRecycler()
+        }
+
+
     }
 
     private fun openAddProducto() {
