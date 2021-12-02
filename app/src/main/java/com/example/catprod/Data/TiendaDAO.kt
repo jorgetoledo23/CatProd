@@ -16,6 +16,10 @@ interface TiendaDAO {
     fun save(vararg producto: Producto)
 
     @Transaction
+    @Query("SELECT * FROM tblProductos")
+    fun getAllProductos(): List<Producto>
+
+    @Transaction
     @Query("SELECT * FROM tblCategorias")
     fun getAll(): List<CategoriaAndProductos>
 

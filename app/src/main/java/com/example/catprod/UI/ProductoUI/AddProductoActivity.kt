@@ -8,11 +8,12 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.example.catprod.Data.*
 
-import com.example.catprod.Data.Categoria
-import com.example.catprod.Data.CategoriaAndProductos
-import com.example.catprod.Data.CategoriaProvider
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class AddProductoActivity : AppCompatActivity() {
@@ -20,10 +21,17 @@ class AddProductoActivity : AppCompatActivity() {
 
     private lateinit var CategoriaSeleccionada : String
 
+    private lateinit var database : TiendaDb
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddProductoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnAddProducto.setOnClickListener { addProducto() }
+
+
+        database = TiendaDb.getDatabase(this)
 
         val ctx = this
 
@@ -56,6 +64,7 @@ class AddProductoActivity : AppCompatActivity() {
             }
         }
 
+
         var categoriaAdapter:CategoriaAdapter = CategoriaAdapter(this)
         var spinner = binding.CategoriaSpinner
         spinner.setAdapter(categoriaAdapter);
@@ -78,9 +87,43 @@ class AddProductoActivity : AppCompatActivity() {
 
 
     }
+
+    private fun addProducto() {
+
+        var nombreProducto : String
+        var descripcionProducto : String
+        var precioProducto : String
+        var stockProducto : String
+        var imagenProducto : String
+
+        nombreProducto = binding.txtProductoNombre.editText?.text.toString()
+        descripcionProducto = binding.txtProductoDescripcion.editText?.text.toString()
+        precioProducto = binding.txtProductoPrecio.editText?.text.toString()
+        stockProducto = binding.txtProductoStock.editText?.text.toString()
+        imagenProducto = binding.txtProductoImagen.editText?.text.toString()
+
+        var producto : Producto
+        producto = Producto(ProductoName = nombreProducto,
+            ProductoImagen = imagenProducto,
+            ProductoDescripcion = descripcionProducto,
+            ProductoStock = stockProducto.toInt(),
+            ProductoPrecio = precioProducto.toInt(),
+            ProductoCategoria = CategoriaSeleccionada.toInt()
+            )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            database.TiendaDAO().save(producto)
+            this@AddProductoActivity.finish()
+        }
+
+
+    }
+
+
 }
 
 class CategoriaHolder {
     lateinit var tvNombre: TextView
     lateinit var tvCat:TextView
 }
+
